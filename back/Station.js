@@ -10,7 +10,7 @@ const station = new Schema({
           "type": "String"
         },
         "Niveau de service": {
-          "type": "Date"
+          "type": "String"
         },
         "Code UIC": {
           "type": "String"
@@ -28,91 +28,91 @@ const station = new Schema({
           "type": "String"
         },
         "Sep-17": {
-          "type": "Date"
+          "type": "Number"
         },
         "Sep-18": {
-          "type": "Date"
+          "type": "Number"
         },
         "mars 2019 SGE": {
-          "type": "Date"
+          "type": "Number"
         },
         "sept 19 SGE": {
-          "type": "String"
+          "type": "Number"
         },
         "cumul 2019 SGE": {
-          "type": "Date"
+          "type": "Number"
         },
         "mars 2019 P1E": {
-          "type": "Date"
+          "type": "Number"
         },
         "sept 2019 P1E": {
-          "type": "String"
+          "type": "Number"
         },
         "cumul 2019 P1E": {
-          "type": "Date"
+          "type": "Number"
         },
         "mars 2019 P1EA": {
-          "type": "Date"
+          "type": "Number"
         },
         "sept 2019 P1EA": {
-          "type": "Date"
+          "type": "Number"
         },
         "cumul 2019 P1EA": {
-          "type": "Date"
+          "type": "Number"
         },
         "mars 2019 P2E": {
-          "type": "Date"
+          "type": "Number"
         },
         "sept 2019 P2E": {
-          "type": "String"
+          "type": "Number"
         },
         "cumul 2019 P2E": {
-          "type": "Date"
+          "type": "Number"
         },
         "mars 2019 P3E": {
-          "type": "String"
+          "type": "Number"
         },
         "sept 2019 P3E": {
-          "type": "String"
+          "type": "Number"
         },
         "cumul 2019 P3E": {
-          "type": "Date"
+          "type": "Number"
         },
         "mars 2019 P4E": {
-          "type": "String"
+          "type": "Number"
         },
         "sept 2019 P4E": {
-          "type": "Date"
+          "type": "Number"
         },
         "cumul 2019 P4E": {
-          "type": "String"
+          "type": "Number"
         },
         "mars 2019 P4EA": {
-          "type": "String"
+          "type": "Number"
         },
         "sept 2019 P4EA": {
-          "type": "String"
+          "type": "Number"
         },
         "cumul 2019 P4EA": {
-          "type": "String"
+          "type": "Number"
         },
         "mars 2019 P4EB": {
-          "type": "String"
+          "type": "Number"
         },
         "sept 2019 P4EB": {
-          "type": "Date"
+          "type": "Number"
         },
         "cumul 2019 P4EB": {
-          "type": "String"
+          "type": "Number"
         },
         "mars 2019 P5E": {
-          "type": "String"
+          "type": "Number"
         },
         "sept 2019 P5E": {
-          "type": "String"
+          "type": "Number"
         },
         "cumul 2019 P5E": {
-          "type": "String"
+          "type": "Number"
         }, 
       
 }, {collection: "barometre"});
