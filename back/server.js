@@ -17,7 +17,7 @@ app.use(function (req, res, next) {
     next();
   });
 
-app.get("/stations", function(req, res) {
+app.get("/api/stations", function(req, res) {
    
     Station.find({}, function(err, stations){
         if(err){
@@ -32,3 +32,13 @@ app.get("/stations", function(req, res) {
 app.listen(Port, () => {
     console.log("Server started")
 })
+
+//handle production 
+
+if(process.env.NODE_ENV=== 'production'){
+    //static folder
+    app.use(exress.static(__dirname+ '/public/'))
+
+    //handle SPA
+    app.get(/.*/, (re, res)=> res.sendFile(__dirname+ "/public/index.html"))
+}

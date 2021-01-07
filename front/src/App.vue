@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    
-   <Container> </Container>
+  
+    <FirstPage v-if="firstPage" @showMap="show"> </FirstPage>
+   <Container v-if="showMap"></Container>
     
   </div>
 </template>
@@ -9,11 +10,25 @@
 <script>
 
 import Container from './components/Container.vue'
+import FirstPage from './components/FirstPage'
 
 export default {
   name: 'App',
   components: {
-    Container
+    Container, FirstPage
+
+  },
+  data(){
+    return{
+      showMap: false,
+      firstPage: true
+    }
+  },
+  methods: {
+    show(){
+    this.showMap = true
+    this.firstPage = false
+    }
   }
 }
 </script>
@@ -23,10 +38,10 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-
+  background-color: #222222;
+  height: 100%;
+  color: #c6c6c6;
   
 }
 </style>

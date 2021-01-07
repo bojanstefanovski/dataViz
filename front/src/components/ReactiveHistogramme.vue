@@ -28,7 +28,8 @@
             }]
           },
           legend: {
-            display: true
+            display: true,
+            position: 'top'
           },
           responsive: true,
           maintainAspectRatio: false

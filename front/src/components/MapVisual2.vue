@@ -7,9 +7,9 @@
       <ul >
         <li  v-for="(l,i) in latlong" :key="i">
             <LMarker :lat-lng="l" > 
-                <LPopup> 
-                    <label> Name: {{i}} </label>
-                    <button @click="selectStation(i)"> Show details </button> 
+                <LPopup class="popup p-2"> 
+                    <label class="text-center p-2"> {{i}} </label>
+                    <button class="button p-1 bg-gray-700 rounded text-xs hover:bg-gray-900 text-white " @click="selectStation(i)"> Show details </button> 
                 </LPopup> 
             </LMarker>
 
@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
+      url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
       zoom: 5.6,
       center: [47.1367826,1.5711133],
       bounds: null,
@@ -57,19 +57,24 @@ export default {
     };
   },
   methods: {
-onReady (mapObject) {
+    onReady (mapObject) {
   mapObject.locate();
-},
-onLocationFound(location){
-  console.log(location)
-},
-getStations(){
-        store.state.stationsNames[0].forEach(element => {  
+  },
+    onLocationFound(location){
+      console.log(location)
+  },
+  getStations(){
+        store.state.stations[0].forEach(element => {  
+
         let station = element["Gare"].replace(/ *\([^)]*\) */g, "")
+       
         this.stations.push(station.replace(/\s/g, '-'))
+        console.log(station)
     });
+      store.commit("addStationsNames", this.stations)
+     
     },
- async getStationCoordinate(){
+  async getStationCoordinate(){
         let self = this
       axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=liste-des-gares&q='+this.buildQuery()+'&rows=10000', { //Fali name u attribut, napravi ja listat da go zachuvuva i imeto na stanicata.
          })
@@ -105,10 +110,20 @@ getStations(){
         this.isFetched = true
     },
     selectStation(name){
-        for(let i=0; i<store.state.stationsNames[0].length; i++){
+      //Format the name
+      let object ={}
+        this.getBarometerInfo(object, name)
+        this.getFrequentationInfo(object, name)
+        store.commit("selectStation", object) 
+  
+    },
 
-            let stations = store.state.stationsNames[0]
-            if(stations[i]['Gare']=== name.replace(/-/g,' ').toUpperCase()){
+    getBarometerInfo(object , name){
+       let nameF = name.replace(/-/g,' ').toUpperCase()
+   
+        for(let i=0; i<store.state.stations[0].length; i++){
+            let stations = store.state.stations[0]
+            if(stations[i]['Gare']=== nameF){
                 let station = stations[i]
                 //Store global grades
                 let grades = [station["cumul 2019 P1E"],
@@ -128,19 +143,37 @@ getStations(){
                                station["mars 2019 P3E"],
                                station["mars 2019 P4E"],
                                station["mars 2019 P5E"] ]
-                let object= {}
+                
                 object["cumulGrades"] = grades
                 object['septGrades'] = septGrades
                 object['marchGrades'] = marchGrades
-                object["name"] = stations[i]['Gare']
-                
-                store.commit("selectStation", object)
-               
-            }
-            
-           
-        } 
+                object["name"] = stations[i]['Gare']        
+            }       
+        }
+    },
+    getFrequentationInfo(object, name){
+      
+     // let nameF = name.replace(/-/g,' ')
+       for(let i=0; i<store.state.stationsFreq[0].length; i++){
+          let selectedStation = store.state.stationsFreq[0][i].fields
+          
+          if(this.formatStationName(selectedStation["nom_gare"]) === this.formatStationName(name)){
+              let frequentationVoyageurs = 
+                [selectedStation["total_voyageurs_2015"], selectedStation["total_voyageurs_2016"], selectedStation["totalvoyageurs2017"], selectedStation["total_voyageurs_2018"], selectedStation["total_voyageurs_2019"]]
+              let frequentationNonVoyageurs = 
+                [selectedStation["total_voyageurs_non_voyageurs_2015"], selectedStation["total_voyageurs_non_voyageurs_2016"], selectedStation["total_voyageurs_non_voyageurs_2017"], selectedStation["total_voyageurs_non_voyageurs_2018"], selectedStation["total_voyageurs_non_voyageurs_2019"]]
+              object["voyageursFreq"] = frequentationVoyageurs
+              object["nonVoyageursFreq"] = frequentationNonVoyageurs
+          }
+          
+        }
+    },
 
+    formatStationName(name){
+      let firstFiltering = name.replace(/\s-\s/gi , "-")
+      let secondFiltering = firstFiltering.replace(/ /g, "-")  
+      let formattedString = secondFiltering.toUpperCase()
+      return formattedString
     }
 
 },
@@ -160,8 +193,10 @@ async created() {
 </script>
 <style scoped>
     .map {
-        height: 720px;
-        
-      
+        height: 720px;  
+    }
+    .popup{
+      display: flex;
+      flex-direction: column;
     }
 </style>

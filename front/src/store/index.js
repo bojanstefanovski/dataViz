@@ -5,18 +5,30 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    stationsNames: [],
-    selectedStation: []
+    stations: [],
+    stationsNames:[],
+    stationsFreq:[],
+    selectedStation: [],
+    selectedStationFreq: []
   },
   mutations: {
     selectStation(state, station){
+      
        state.selectedStation = station
-       console.log(state.selectedStation)
+    },
+    addStations(state, stations) {
+
+      state.stations.push(stations)
+    },
+    addStationFreq(state, station){
+     
+      state.stationsFreq.push(station)
     },
     addStationsNames(state, stations) {
-
-      state.stationsNames.push(stations)
-    },
+      
+      state.stationsNames = stations
+      },
+    
 
    
   }

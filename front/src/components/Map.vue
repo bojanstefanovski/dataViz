@@ -20,22 +20,19 @@ export default {
   methods:{
      cancelLoader(){
          this.$emit("fetched", true)
-     }
+     },
+     
+     
   },
   
   created(){
       let self = this
     axios
-    .get('http://localhost:3000/stations', {
+    .get('/api/stations', {
     })
     .then(function (response) { 
-        console.log(response.data)
-     store.commit("addStationsNames", response.data)
-     self.isFetched = true
-     console.log(store.state.stationsNames[0])
-
-   
-      
+     store.commit("addStations", response.data)
+     self.isFetched = true    
     })
     .catch(function (error) {
         console.log(error);
