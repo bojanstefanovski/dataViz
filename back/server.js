@@ -37,7 +37,7 @@ app.listen(Port, () => {
 
 if(process.env.NODE_ENV=== 'production'){
     //static folder
-    app.use(exress.static(__dirname+ '/public/'))
+    app.use(express.static(__dirname+ '/public/'))
 
     //handle SPA
     app.get(/.*/, (re, res)=> res.sendFile(__dirname+ "/public/index.html"))

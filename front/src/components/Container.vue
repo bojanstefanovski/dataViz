@@ -1,8 +1,10 @@
 <template>
   <div id='mainDiv'>
+
+      <Datacontainer id="datacontainer" v-if="datacollection" :key="datacollection"> </Datacontainer>
     <Map class="map" @fetched="loaderHandler"> </Map>
     
-    <Datacontainer id="datacontainer" v-if="datacollection" :key="datacollection"> </Datacontainer>
+    
     
     <loading :active.sync="isLoading" 
             :can-cancel="true"
@@ -41,11 +43,7 @@ methods: {
         this.datacollection = true
     },
 },
-/*watch: {
-    '$store.state.stationsNames': function(){
-       // this.datacollection = true 
-    }
-} */
+
 }
 </script>
 
@@ -72,5 +70,20 @@ methods: {
     grid-template-columns: 1fr 1fr;
    
 }
+@media (max-width: 800px) {  
+    #datacontainer {
+    margin: 5%;
+    width: 90%
+    
+}
+
+.map {
+    position: static;
+    width: 100%
+}
+
+
+}
+ 
 
 </style>

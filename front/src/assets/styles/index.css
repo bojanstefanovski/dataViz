@@ -4,7 +4,9 @@
 
 html {
     overflow-y: scroll;
+    background-color: #222222;
 }
+
 
 /* width */
 ::-webkit-scrollbar {

@@ -19,12 +19,13 @@
         <div class="showMore" v-if="showMore">
              <div>
                  <h2 class="text-center"> March 2019 </h2>
-             <reactive-histogramme class="histogramme" :chart-data="marchGrades" ></reactive-histogramme>
-
+             <reactive-histogramme v-if="marchGrades.datasets[0].data" class="smallHistogramme" :chart-data="marchGrades" ></reactive-histogramme>
+            <not-available v-else> </not-available>
              </div>
              <div>
                  <h2 class="text-center"> September 2019 </h2>
-             <reactive-histogramme class="histogramme" :chart-data="septGrades" ></reactive-histogramme>
+             <reactive-histogramme v-if="septGrades.datasets[0].data " class="smallHistogramme" :chart-data="septGrades" ></reactive-histogramme>
+             <not-available v-else> </not-available>
              </div>
         </div>
     
@@ -39,11 +40,13 @@ import store from "../store"
 
     // Import stylesheet
 import 'vue-loading-overlay/dist/vue-loading.css';
+import NotAvailable from './NotAvailable.vue';
 
 export default {
     name: "Histogrammes",
     components :{
-    ReactiveHistogramme
+    ReactiveHistogramme,
+        NotAvailable
   
   },
   data () {
@@ -59,12 +62,12 @@ methods: {
         this.showMore= !this.showMore
     },
     makeChartDataObject(d){
-       console.log(store.state.selectedStation)
+      
          let datacollection = {
              datasets: [{
-         label: "P1",
-         backgroundColor: "#56900C",
-         data: [store.state.selectedStation[d][0]],
+            label: "P1",
+            backgroundColor: "#56900C",
+            data: [store.state.selectedStation[d][0]],
       },{
          label: "P2",
          backgroundColor: "#0C5A90",
@@ -112,11 +115,20 @@ watch: {
 .showMore{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    margin-top:5%
+    margin-top:5%;
+
+    
     
 }
 .histogramme{
   background-color: #262626;
+  width: 70vh;
+
+}
+
+.smallHistogramme {
+    background-color: #262626;
+    width: 90%
 }
 
 #firstHist {
@@ -132,9 +144,14 @@ watch: {
 .button {
     margin-left: 43%;
     margin-top: 5%;
-    width: 14%;
+    width: 14%;  
     
-    
+}
+@media (max-width: 800px) {  
+  
+.showMore {
+    display: block
+}
 }
 
 

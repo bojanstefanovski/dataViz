@@ -93,15 +93,25 @@ export default {
     background-color: 	rgba(54, 80, 100, 0.87)
    
 }
-.frequ h2 {
-    
+
+@media (max-width: 800px) {  
+   .second {
+       width: 90%;
+    }
+    #child {
+        top: 10%
+    }
 }
-.barometer h2 {
-   
-  
+
+@media (max-width: 600px) {  
+   .second {
+       width: 100%;
+    }
+    #child {
+        top: 0%
+
+    }
 }
-.h1div {
-    background-color: 
-}
+
 
 </style>

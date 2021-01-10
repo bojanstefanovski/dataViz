@@ -1,8 +1,8 @@
 <template>
 <div>
   <div class="map" v-if="isFetched">
-    <LMap  @ready="onReady" @locationfound="onLocationFound" :zoom="zoom" :center="center">
-      <LTileLayer :url="url"></LTileLayer>
+    <LMap  @ready="onReady" @locationfound="onLocationFound" :zoom="zoom" :center="center" >
+      <LTileLayer :options="{ minZoom: 6 }" :url="url"></LTileLayer>
 
       <ul >
         <li  v-for="(l,i) in latlong" :key="i">
@@ -63,13 +63,16 @@ export default {
     onLocationFound(location){
       console.log(location)
   },
+
+  //Gets the name station from the store
+  //Filter all the paranteses
+  //Replaces all the spaces with " - "
+  //Pushesh stations names to the store for ruther use
   getStations(){
         store.state.stations[0].forEach(element => {  
-
         let station = element["Gare"].replace(/ *\([^)]*\) */g, "")
-       
         this.stations.push(station.replace(/\s/g, '-'))
-        console.log(station)
+       
     });
       store.commit("addStationsNames", this.stations)
      
@@ -98,9 +101,9 @@ export default {
        
         return output
     },
-
+  //Creates a list with station name and it's coordinates
     getLatLong(){
-       
+
         for(let i=0; i<this.responseList.length; i++){
             if(this.stations.includes(this.responseList[i].fields.libelle.toUpperCase())){
                 this.latlong[this.responseList[i].fields.libelle]= this.responseList[i].geometry.coordinates.reverse()
@@ -109,18 +112,19 @@ export default {
         
         this.isFetched = true
     },
+    //When station is selected on the map we create an object with it's barometer information and it's frequentation. We store this object in the store
     selectStation(name){
       //Format the name
       let object ={}
         this.getBarometerInfo(object, name)
         this.getFrequentationInfo(object, name)
         store.commit("selectStation", object) 
+        this.scrollToTop()
   
     },
-
+  //Put barometer info for a station in the object.
     getBarometerInfo(object , name){
        let nameF = name.replace(/-/g,' ').toUpperCase()
-   
         for(let i=0; i<store.state.stations[0].length; i++){
             let stations = store.state.stations[0]
             if(stations[i]['Gare']=== nameF){
@@ -151,6 +155,7 @@ export default {
             }       
         }
     },
+    //Puts frequentation info in the object.
     getFrequentationInfo(object, name){
       
      // let nameF = name.replace(/-/g,' ')
@@ -174,7 +179,12 @@ export default {
       let secondFiltering = firstFiltering.replace(/ /g, "-")  
       let formattedString = secondFiltering.toUpperCase()
       return formattedString
-    }
+    },
+    //Scroll to the top of the window, this is used when the windowd is small and the map is on the bottom of the page
+     scrollToTop() {
+       console.log("vleze")
+                window.scrollTo(0,0);
+           }
 
 },
 

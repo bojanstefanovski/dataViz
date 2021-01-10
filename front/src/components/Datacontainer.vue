@@ -4,8 +4,8 @@
      <!-- use router-link component for navigation. -->
             <!-- specify the link by passing the `to` prop. -->
             <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
-            <router-link class=" link p-2 border-b  text-right" to="/Histogrammes">Barometre informations</router-link>
-            <router-link class="link p-2  border-b" to="/Frequentation">Frequentation in stations</router-link>
+            <router-link class=" link p-2 border-b  text-right rounded" to="/Histogrammes">Barometre informations</router-link>
+            <router-link class="link p-2  border-b rounded" to="/Frequentation">Frequentation in stations</router-link>
 
            
     </div>
@@ -18,7 +18,7 @@
     </div>
     
  </div>
- <div v-else class="min-h-screen"> 
+ <div v-else class=" notAvailable"> 
      <h1 class="text-gray-700 text-4xl pleaseSelect text-center"> Please select a train station from the map </h1>
      <hr />
  </div>
@@ -46,9 +46,7 @@ export default {
 },
  
 methods: {
-    loaderHandler(){
-        this.isLoading=false
-    },
+    //Fetching the frequentation in the stations.
     getFrequentation(){
        let self = this
       axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=frequentation-gares&q='+this.buildQuery()+'&rows=1000', { //Fali name u attribut, napravi ja listat da go zachuvuva i imeto na stanicata.
@@ -61,6 +59,7 @@ methods: {
         console.log(error);
         }); 
     },
+    //Building a query by concataining station names.
       buildQuery(){
         let output = ""
         for(let i=0; i<this.stations.length-1; i=i+2){
@@ -72,13 +71,12 @@ methods: {
        
         return output
     },
+    
     filterNames(name) {
         let neww = name.replace("-VILLE", "")
-        
         return neww
     }
   
-
 
 },
 created() {
@@ -119,5 +117,16 @@ watch: {
     margin: auto;
     margin-top: 40%;
 }
+
+@media (max-width: 800px) {  
+    #routes {
+    position: static;
+     width: 100%
+}
+    .pleaseSelect{
+        margin-top:10%
+    }
+}
+
 
 </style>

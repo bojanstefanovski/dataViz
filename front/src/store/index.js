@@ -12,18 +12,22 @@ const store = new Vuex.Store({
     selectedStationFreq: []
   },
   mutations: {
+    //Store the selected station.
     selectStation(state, station){
       
        state.selectedStation = station
     },
+    //Station from the barometer.
     addStations(state, stations) {
 
       state.stations.push(stations)
     },
+    //Information about the frequentation
     addStationFreq(state, station){
      
       state.stationsFreq.push(station)
     },
+    //Store stations names
     addStationsNames(state, stations) {
       
       state.stationsNames = stations

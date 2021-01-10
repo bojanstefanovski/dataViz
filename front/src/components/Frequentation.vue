@@ -1,11 +1,8 @@
 <template>
   <div id='mainDiv'>
       <bar-chart v-if="datacollection.datasets[0].data" class="barChart" :chart-data="datacollection"> </bar-chart>
-      <div v-else class="text-4xl text-gray-600 text-center  p-4 border border-gray-800 mt-5" id="noData">
-          <img  src="../assets/nofound.png" alt="Image">
-          <p> No available data for this particular station. </p>
-           
-           </div>
+      <not-available v-else > </not-available>
+          
    
     
   </div>
@@ -15,9 +12,10 @@
 
 import store from "../store"
 import BarChart from './BarChart.vue';
+import NotAvailable from './NotAvailable'
 
 export default {
-  components: { BarChart },
+  components: { BarChart, NotAvailable },
     name: "Frequentation",
   data () {
   return {
@@ -63,26 +61,14 @@ methods: {
     },
     initializeData(){
           this.name = store.state.selectedStation["name"]
-     this.datacollection = this.fillData()
+           this.datacollection = this.fillData()
     }
-
-   
-   /* getStationFreq(){
-        console.log(this.data)
-        this.data.forEach(element => {
-            console.log("coucou")
-            let station = element.replace(/\s-\s/gi , "-")
-            console.log(station)
-            if(element.fields.nom_gare.toUpperCase()===this.name){
-                this.station = element
-            }
-        });
-    } */
 },
 created(){
      this.initializeData()
 },
-watch: { //OVA GO STAVI ZA KOA KJE SE MENJA TUKA DA SE MENJA I CURBATA 
+//Watcher for the selected station in order to change the data of the line chart.
+watch: { 
     '$store.state.selectedStation': function(){
         this.initializeData()
     }
@@ -95,9 +81,6 @@ watch: { //OVA GO STAVI ZA KOA KJE SE MENJA TUKA DA SE MENJA I CURBATA
 .barChart{
   background-color: #262626;
 }
-img{
-    margin: auto;
-    opacity: 0.5
-}
+
 
 </style>
